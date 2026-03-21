@@ -1,0 +1,52 @@
+# Dependency
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+logs/
+*.log
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage
+coverage/
+
+# Build output
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# JetBrains IDE
+.idea/
+
+# Temporary files
+tmp/
+temp/
+
+# Database (kalau pakai lokal)
+*.sqlite
+*.db
+
+# Baileys session (PENTING untuk bot WA)
+auth_info/
+session/
+sessions/
+baileys_session/
+multi_auth/
