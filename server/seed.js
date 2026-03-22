@@ -1,10 +1,9 @@
 import dotenv from "dotenv";
 dotenv.config();
-import mongoose from "mongoose";
 import connectDB from "./config/db.js";
 
 import Product from "./models/Products.js";
-import Chats from "./models/Chats.js";
+import Training from "./models/DataTraining.js";
 
 async function seed() {
   try {
@@ -12,8 +11,8 @@ async function seed() {
     console.log("MongoDB connected");
 
     // ❗ Hapus data lama
-    await Product.deleteMany({});
-    await Chats.deleteMany({});
+    //await Product.deleteMany({});
+    //await Chats.deleteMany({});
 
     // 🍩 DATA PRODUK
     const products = [
@@ -32,62 +31,88 @@ async function seed() {
     ];
 
     // 💬 DATA CHAT TRAINING
-    const chats = [
+    const data = [
+      // ========================
+      // INTENT: SAPAAN
+      // ========================
       {
-        intent: "tanya_produk",
-        user: "ada donat coklat?",
-        admin:
-          "Ada kak 😊 Donat cokelat lagi ready, mau yang topping atau isi?",
+        intent: "greeting",
+        input: "halo",
+        output: "Halo kak! Selamat datang di toko donat kami 😊",
+        keywords: ["halo", "hai", "hi"],
+      },
+      {
+        intent: "greeting",
+        input: "hai",
+        output: "Hai kak! Mau pesan donat atau lihat menu dulu? 😄",
+        keywords: ["hai", "halo"],
+      },
+
+      // ========================
+      // INTENT: TANYA HARGA
+      // ========================
+      {
+        intent: "tanya_harga",
+        input: "harga donat berapa",
+        output: "Harga donat kami mulai dari 8 ribu per pcs ya kak 😊",
+        keywords: ["harga", "berapa", "donat"],
       },
       {
         intent: "tanya_harga",
-        user: "berapa harga donat?",
-        admin: "Mulai dari 7 ribuan aja kak 😊",
+        input: "berapa harga",
+        output: "Donat mulai dari 8k per pcs ya kak 😄",
+        keywords: ["harga", "berapa"],
+      },
+
+      // ========================
+      // INTENT: MENU
+      // ========================
+      {
+        intent: "menu",
+        input: "ada menu apa saja",
+        output:
+          "Kami punya berbagai varian donat, mau lihat menu lengkapnya kak?",
+        keywords: ["menu", "varian", "donat"],
       },
       {
-        intent: "stok",
-        user: "masih ready?",
-        admin: "Masih ready kak 😊 Mau pesan berapa?",
+        intent: "menu",
+        input: "lihat menu",
+        output: "Ini menu donat kami ya kak 🍩",
+        keywords: ["menu"],
+      },
+
+      // ========================
+      // INTENT: PEMESANAN
+      // ========================
+      {
+        intent: "order",
+        input: "saya mau pesan",
+        output: "Siap kak! Mau pesan varian apa dan berapa pcs? 😊",
+        keywords: ["pesan", "order", "beli"],
+        context: "pemesanan",
       },
       {
-        intent: "beli",
-        user: "saya mau pesan",
-        admin: "Siap kak 😊 Mau varian apa dan berapa pcs?",
+        intent: "order",
+        input: "beli donat",
+        output: "Mau beli berapa pcs kak? Dan varian apa? 😄",
+        keywords: ["beli", "donat"],
       },
+
+      // ========================
+      // INTENT: TERIMA KASIH
+      // ========================
       {
-        intent: "rekomendasi",
-        user: "yang enak apa?",
-        admin: "Best seller kita cokelat dan oreo kak 😍",
-      },
-      {
-        intent: "promo",
-        user: "ada promo?",
-        admin: "Ada kak 😊 Paket hemat lebih murah loh 👍",
-      },
-      {
-        intent: "jam",
-        user: "buka jam berapa?",
-        admin: "Kita buka jam 08.00 - 20.00 kak 😊",
-      },
-      {
-        intent: "closing",
-        user: "makasih",
-        admin: "Sama-sama kak 😊 Ditunggu ordernya ya 🙏",
-      },
-      {
-        intent: "random",
-        user: "kamu siapa?",
-        admin: "Aku admin toko donat kak 😊",
-      },
-      {
-        intent: "fallback",
-        user: "asdfgh",
-        admin: "Maaf kak 🙏 Bisa tanya seputar donat ya 😊",
+        intent: "thanks",
+        input: "terima kasih",
+        output: "Sama-sama kak 😊 ditunggu orderannya ya!",
+        keywords: ["terima kasih", "makasih"],
       },
     ];
 
+    await Training.insertMany(data);
+
     // 🚀 INSERT DATA
-    await Product.insertMany(products);
+    // await Product.insertMany(products);
 
     console.log("✅ Seed data berhasil dimasukkan!");
     process.exit();
