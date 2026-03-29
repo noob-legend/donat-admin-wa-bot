@@ -6,7 +6,7 @@ import axios from "axios"; // Install axios jika belum: npm install axios
 // KONFIGURASI MIDTRANS
 // ==========================
 const core = new midtransClient.CoreApi({
-  isProduction: false,
+  isProduction: false, // Using sandbox mode - change to true for production
   serverKey: process.env.MIDTRANS_SERVER_KEY,
   clientKey: process.env.MIDTRANS_CLIENT_KEY,
 });
@@ -257,7 +257,7 @@ export const generateQRCodeImage = async (deeplinkUrl) => {
   try {
     // Gunakan API Midtrans untuk generate QR code image
     const response = await withTimeout(
-      fetch(`https://api.sandbox.midtrans.com/qris/generate-qr-code`, {
+      fetch(`https://api.midtrans.com/qris/generate-qr-code`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
